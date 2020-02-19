@@ -1,91 +1,92 @@
 import React from 'react';
-import { Button } from 'antd';
 import './App.css';
-import Topshow from './Component/TopShow';
+import MyHeader from './Component/MyHeader';
+import MySider from './Component/MySider';
+import MyBreadcrumb from './Component/MyBreadcrumb';
+import ImageClassList from './Component/ImageClassList';
+import ImageList from './Component/ImageList';
+import VideoList from './Component/VideoList';
+import ModelList from './Component/ModelList';
+import ViewImages from './Component/ViewImages';
+import UploadImage from './Component/UploadImage';
 
-import { 
-  Layout, Menu, Breadcrumb, Icon 
+import {
+  Layout, Menu
 } from 'antd';
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
 class App extends React.Component {
-
-  status = {
-    currentPage: 0,
+  state = {
+    headerCurrent: 'home',
+    siderCurrent: '',
+    breadcrumbCurrent: '',
+    contentCurrent: ''
   };
-  
+
+  handleHeaderClick = e => {
+    this.setState({headerCurrent: e.key});
+    if (e.key.includes("project", 0)) {
+      this.setState({siderCurrent: e.key, contentCurrent: e.key});
+    } else {
+      this.setState({siderCurrent: '', contentCurrent: e.key});
+    }
+  };
+   
+  handleSiderClick = e => {
+    this.setState({siderCurrent: e.key});
+    this.setState({contentCurrent: e.key});
+    console.log("app's current state", this.state.siderCurrent);
+  }
+
   render() {
+    let appSider = '';
+    let content = '';
+
+    if (this.state.siderCurrent !== '') {
+      appSider = <MySider myClick={this.handleSiderClick} />;
+    } 
+
+    switch(this.state.contentCurrent) {
+      case 'home':
+        content = <div> Home </div>;
+        break;
+      case 'setting':
+        content = <div> Setting </div>;
+        break;
+      case 'viewImage':
+        content = <ViewImages isClassList={true}/>;
+        break;
+      case 'viewVideo':
+        content = <VideoList />;
+        break;
+      case 'viewModel':
+        content = <ModelList />;
+        break;
+      case 'uploadImages':
+        content = <UploadImage />
+        break;
+      case 'uploadVideos':
+        content = <div>Upload Videos</div>
+        break;
+      case 'trainModel':
+        content = <div>Train Model</div>
+        break;
+      case 'tuningModel':
+        content = <div>Tuning Model</div>
+        break;
+      default:
+        content = <div> Project </div>
+    }
+
     return (
       <Layout>
-        <Header className="header">
-          <div className="logo" />
-          <Menu
-            theme="dark"
-            mode="horizontal"
-            defaultSelectedKeys={['2']}
-            style={{ lineHeight: '64px' }}
-          >
-            <Menu.Item key="1">View Assets</Menu.Item>
-            <Menu.Item key="2">Upload Videos</Menu.Item>
-            <Menu.Item key="3">Upload Images</Menu.Item>
-          </Menu>
-        </Header>
-
+        <MyHeader myClick={this.handleHeaderClick}/>
         <Layout>
-          <Sider width={200} style={{ background: '#fff' }}>
-            <Menu
-              mode="inline"
-              defaultSelectedKeys={['1']}
-              defaultOpenKeys={['sub1']}
-              style={{ height: '100%', borderRight: 0 }}
-            >
-              <SubMenu
-                key="sub1"
-                title={
-                  <span>
-                    <Icon type="user" />
-                    Home
-                  </span>
-                }
-              >
-
-              </SubMenu>
-              <SubMenu
-                key="sub2"
-                title={
-                  <span>
-                    <Icon type="laptop" />
-                    Projects
-                  </span>
-                }
-              >
-                <Menu.Item key="5">Project 1</Menu.Item>
-                <Menu.Item key="6">Project 2</Menu.Item>
-              </SubMenu>
-
-              <SubMenu
-                key="sub3"
-                title={
-                  <span>
-                    <Icon type="notification" />
-                    Notification
-                  </span>
-                }
-              >
-                <Menu.Item key="9">option9</Menu.Item>
-                <Menu.Item key="10">option10</Menu.Item>
-              </SubMenu>
-            </Menu>
-          </Sider>
-
+          {appSider}
           <Layout style={{ padding: '0 24px 24px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>List</Breadcrumb.Item>
-              <Breadcrumb.Item>App</Breadcrumb.Item>
-            </Breadcrumb>
+            <MyBreadcrumb />
             <Content
               style={{
                 background: '#fff',
@@ -94,7 +95,7 @@ class App extends React.Component {
                 minHeight: 280,
               }}
             >
-              <Topshow />
+              { content }
             </Content>
           </Layout>
         </Layout>
