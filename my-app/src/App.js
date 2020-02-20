@@ -8,8 +8,9 @@ import ModelList from './Component/ModelList';
 import ViewImages from './Component/ViewImages';
 import UploadImage from './Component/UploadImage';
 import UploadVideo from './Component/UploadVideo';
-import { Layout } from 'antd';
+import PredictImage from './Component/PredictImage';
 
+import { Layout } from 'antd';
 const { Content } = Layout;
 
 class App extends React.Component {
@@ -69,7 +70,7 @@ class App extends React.Component {
         content = <div>Train Model</div>
         break;
       case 'predictModel':
-        content = <div>Predict Model</div>
+        content = <PredictImage />
         break;
       default:
         content = <div> Project </div>

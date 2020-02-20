@@ -54,12 +54,12 @@ class MySider extends React.Component {
           </SubMenu>
           <SubMenu key="Model" title={<span> <Icon type="export" /> Model</span>}>
             <Menu.Item key="trainModel">
-              <Icon type="file-jpg" />
+              <Icon type="clock-circle" />
               Train Model
             </Menu.Item>
             <Menu.Item key="predictModel">
               <Icon type="check-circle" />
-              Image Predict
+              Predict Image
             </Menu.Item>
           </SubMenu>
         </Menu>
