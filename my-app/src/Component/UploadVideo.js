@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { Layout, Spin } from 'antd';
 import ClassifyImage from './ClassifyImage';
 import UploadVideoSider from './UploadVideoSider';
-import { wait } from '@testing-library/react';
 
-const { Header, Content, Sider, Footer } = Layout;  
+const {Content, Sider } = Layout;  
 
 class UploadVideo extends Component {
 

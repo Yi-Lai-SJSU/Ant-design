@@ -37,7 +37,7 @@ class MySider extends React.Component {
               View Vedios
             </Menu.Item>
             <Menu.Item key="viewModel">
-              <Icon type="video-camera" />
+              <Icon type="check-circle" />
               View Models
             </Menu.Item>
           </SubMenu>
@@ -52,14 +52,14 @@ class MySider extends React.Component {
               Upload Videos
             </Menu.Item>
           </SubMenu>
-          <SubMenu key="TrainModel" title={<span> <Icon type="export" /> Train Model</span>}>
+          <SubMenu key="Model" title={<span> <Icon type="export" /> Model</span>}>
             <Menu.Item key="trainModel">
               <Icon type="file-jpg" />
-              Train Models
+              Train Model
             </Menu.Item>
-            <Menu.Item key="tuningModel">
-              <Icon type="file-jpg" />
-              Tuning Models
+            <Menu.Item key="predictModel">
+              <Icon type="check-circle" />
+              Image Predict
             </Menu.Item>
           </SubMenu>
         </Menu>

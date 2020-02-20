@@ -3,20 +3,14 @@ import './App.css';
 import MyHeader from './Component/MyHeader';
 import MySider from './Component/MySider';
 import MyBreadcrumb from './Component/MyBreadcrumb';
-import ImageClassList from './Component/ImageClassList';
-import ImageList from './Component/ImageList';
 import VideoList from './Component/VideoList';
 import ModelList from './Component/ModelList';
 import ViewImages from './Component/ViewImages';
 import UploadImage from './Component/UploadImage';
 import UploadVideo from './Component/UploadVideo';
+import { Layout } from 'antd';
 
-import {
-  Layout, Menu
-} from 'antd';
-
-const { SubMenu } = Menu;
-const { Header, Content, Sider } = Layout;
+const { Content } = Layout;
 
 class App extends React.Component {
   state = {
@@ -74,8 +68,8 @@ class App extends React.Component {
       case 'trainModel':
         content = <div>Train Model</div>
         break;
-      case 'tuningModel':
-        content = <div>Tuning Model</div>
+      case 'predictModel':
+        content = <div>Predict Model</div>
         break;
       default:
         content = <div> Project </div>

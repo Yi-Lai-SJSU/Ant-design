@@ -1,18 +1,23 @@
 import React from 'react';
 import axios from 'axios';
 import '../App.css';
+import { Checkbox } from 'antd';
+
 
 class ClassifyImageCard extends React.Component {
     state = {
         term: '',
         currentType: 'Unclassified',
+        isTrain: true,
     };
 
     makePostRequest = async (id, type) => {
         let params = {
           id: id,
-          type: type
+          type: type,
+          isTrain: this.state.isTrain,
         }
+        console.log(params);
         let res = await axios.post('http://127.0.0.1:8000/classifyImage/', params);
         console.log(res.data);
     }
@@ -22,6 +27,12 @@ class ClassifyImageCard extends React.Component {
         console.log(this.state.term);
         this.setState({currentType: this.state.term});
         this.makePostRequest(this.props.image.id, this.state.term);
+    }
+
+    onCheckChange = (e) => {
+        console.log(e);
+        this.setState({isTrain: !e.target.checked});
+        console.log(this.state.isTrain);
     }
 
     render() {
@@ -36,6 +47,7 @@ class ClassifyImageCard extends React.Component {
                             value={this.state.term}
                             onChange={e=>this.setState({term: e.target.value})}
                         />
+                        <Checkbox onChange={this.onCheckChange}>Test</Checkbox>
                     </div>
                 </form>
             </div>

@@ -9,11 +9,8 @@ const ClassifyImage = (props) => {
             <ClassifyImageCard key={image.id} image={image} />
         )
     });
-
     return (
-        <div className="image-list">
-            {images}
-        </div>
+        <div className="image-list">{ images }</div>
     )
 }
 
