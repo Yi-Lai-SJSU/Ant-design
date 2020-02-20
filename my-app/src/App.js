@@ -9,6 +9,7 @@ import VideoList from './Component/VideoList';
 import ModelList from './Component/ModelList';
 import ViewImages from './Component/ViewImages';
 import UploadImage from './Component/UploadImage';
+import UploadVideo from './Component/UploadVideo';
 
 import {
   Layout, Menu
@@ -68,7 +69,7 @@ class App extends React.Component {
         content = <UploadImage />
         break;
       case 'uploadVideos':
-        content = <div>Upload Videos</div>
+        content = <UploadVideo />
         break;
       case 'trainModel':
         content = <div>Train Model</div>

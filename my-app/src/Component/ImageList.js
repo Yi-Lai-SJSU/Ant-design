@@ -11,33 +11,19 @@ function getBase64(file) {
   });
 }
 
-const imagesList = [
-  {
-    uid: '-1',
-    name: 'image.png',
-    status: 'done',
-    url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-  },
-  {
-    uid: '-2',
-    name: 'image.png',
-    status: 'done',
-    url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-  },
-  {
-    uid: '-3',
-    name: 'image.png',
-    status: 'done',
-    url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-  },
-];
-
 class ImageList extends React.Component {
   state = {
     previewVisible: false,
     previewImage: '',
-    fileList: this.props.isUpload ?  [] : imagesList,
+    fileList: this.props.isUpload ?  [] : this.props.files.map((currElement) => {
+      console.log(currElement);
+      return ({
+          uid: currElement.uid,
+          url: currElement.url,
+      })
+    }),
   };
+
 
   handleCancel = () => this.setState({ previewVisible: false });
 
@@ -73,7 +59,11 @@ class ImageList extends React.Component {
         >
           { this.props.isUpload ? uploadButton : null }
         </Upload>
-        <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+        <Modal 
+          visible={previewVisible} 
+          footer={null} 
+          onCancel={this.handleCancel}
+        >
           <img alt="example" style={{ width: '100%' }} src={previewImage} />
         </Modal>
       </div>
