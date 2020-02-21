@@ -34,7 +34,7 @@ class ImageClassList extends React.Component {
         var result;
         res.forEach(current => {
             if (current.type === type) {
-                result =  current.location;
+                result =  current.url;
             }
         });
         return result;
@@ -64,7 +64,7 @@ class ImageClassList extends React.Component {
                         <Card
                             hoverable
                             style={{ width: 160 }}
-                            cover={<img alt="example" src="https://resize.hswstatic.com/w_907/gif/animal-stereotype-1.jpg" />}
+                            cover={<img alt="example" src={item.url} />}
                         >
                             <Meta title={item.title} style={{ textAlign: "center" }} />
                         </Card>
