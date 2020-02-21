@@ -61,7 +61,7 @@ class App extends React.Component {
         content = <ModelList />;
         break;
       case 'uploadImages':
-        content = <UploadImage />
+        content = <UploadImage isClassList={true}/>
         break;
       case 'uploadVideos':
         content = <UploadVideo />

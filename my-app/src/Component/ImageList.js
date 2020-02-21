@@ -1,5 +1,5 @@
 import React from 'react';
-import { Upload, Icon, Modal } from 'antd';
+import { Upload, Icon, Modal, Button } from 'antd';
 import "../App.css";
 
 function getBase64(file) {
@@ -16,9 +16,8 @@ class ImageList extends React.Component {
     previewVisible: false,
     previewImage: '',
     fileList: this.props.isUpload ?  [] : this.props.files.map((currElement) => {
-      console.log(currElement);
       return ({
-          uid: currElement.uid,
+          uid: currElement.id,
           url: currElement.url,
       })
     }),
@@ -39,6 +38,11 @@ class ImageList extends React.Component {
   };
 
   handleChange = ({ fileList }) => this.setState({ fileList });
+
+  backToClassList = (e) => {
+    console.log(e);
+    this.props.backToClassList();
+  };
 
   render() {
     const { previewVisible, previewImage, fileList } = this.state;
@@ -66,6 +70,9 @@ class ImageList extends React.Component {
         >
           <img alt="example" style={{ width: '100%' }} src={previewImage} />
         </Modal>
+        <div>
+          <Button type="link" onClick={this.backToClassList}> Back </Button>
+        </div>
       </div>
     );
   }

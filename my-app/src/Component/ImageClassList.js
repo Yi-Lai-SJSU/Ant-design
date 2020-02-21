@@ -30,7 +30,7 @@ class ImageClassList extends React.Component {
         }).catch(err => console.log(err));
     }
 
-    getTheRepresentImage(res, type) {
+    getTheRepresentImage = (res, type) => {
         var result;
         res.forEach(current => {
             if (current.type === type) {
@@ -38,11 +38,6 @@ class ImageClassList extends React.Component {
             }
         });
         return result;
-    }
-
-    handleClick = e => {
-        console.log("ImageClassList:" + e.key);
-        this.props.chooseClass("cat");
     }
 
     render() {
@@ -54,7 +49,10 @@ class ImageClassList extends React.Component {
                     <List.Item 
                         actions= {[
                             <a onClick={() => {
-                                this.props.chooseClass(item.title);
+                                console.log(item.title);
+                                var filteredData = this.state.res.filter(data => data.type === item.title);
+                                console.log(filteredData);
+                                this.props.chooseClass(filteredData);
                             }}>
                                 { this.props.isUpload ? "Upload" : "View" }
                             </a>,
