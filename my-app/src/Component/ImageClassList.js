@@ -1,30 +1,44 @@
 import React from 'react';
 import { List, Card } from 'antd';
+import axios from 'axios';
 
 const { Meta } = Card;
-const data = [
-    {
-        title : "Cats",
-    },
-    {
-        title : "Dogs",
-    },
-    {
-        title : "Horses",
-    },
-    {
-        title : "Spiders",
-    },
-    {
-        title : "Birds",
-    },
-    {
-        title : "Ants",
-    },
-]
-
 
 class ImageClassList extends React.Component {
+    state = {
+        res: [],
+        data: [],
+    };
+
+    componentDidMount() {
+        const url = 'http://localhost:8000/videoToFrames/testing/images/';
+        axios.get(url).then(res => {
+            console.log(res.data);
+            var allTypes = res.data.map(current => {
+                return current.type;
+            });
+            var uniqueTypes = Array.from(new Set(allTypes));
+        
+            var data = uniqueTypes.map(current => {
+                return {
+                    title: current,
+                    url: this.getTheRepresentImage(res.data, current),
+                };
+            });
+            this.setState({res: res.data, data: data});
+            console.log(this.state.data);
+        }).catch(err => console.log(err));
+    }
+
+    getTheRepresentImage(res, type) {
+        var result;
+        res.forEach(current => {
+            if (current.type === type) {
+                result =  current.location;
+            }
+        });
+        return result;
+    }
 
     handleClick = e => {
         console.log("ImageClassList:" + e.key);
@@ -35,7 +49,7 @@ class ImageClassList extends React.Component {
         return (
             <List
                 grid={{ gutter: 16, column: 4 }}
-                dataSource={data}
+                dataSource={this.state.data}
                 renderItem = {item => (
                     <List.Item 
                         actions= {[
