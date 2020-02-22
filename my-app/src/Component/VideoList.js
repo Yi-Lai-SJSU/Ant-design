@@ -1,19 +1,7 @@
 import { List, Avatar, Icon } from 'antd';
 import React from 'react';
-
-const listData = [];
-
-for (let i = 0; i < 23; i++) {
-  listData.push({
-    href: 'http://ant.design',
-    title: `ant design part ${i}`,
-    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-    description:
-      'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-    content:
-      'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-  });
-}
+import ReactPlayer from 'react-player';
+import axios from 'axios';
 
 const IconText = ({ type, text }) => (
   <span>
@@ -23,48 +11,59 @@ const IconText = ({ type, text }) => (
 );
 
 class VideoList extends React.Component {
+    state ={
+        listData: [],
+    }
+
+    componentDidMount() {
+        const url = 'http://localhost:8000/videoToFrames/testing/videos/';
+        axios.get(url).then(res => {
+            this.setState({listData: res.data});
+            console.log(this.state.listData);
+        }).catch(err => console.log(err));
+    }
+
     render() {
         return (
-            <List
-                itemLayout="vertical"
-                size="large"
-                pagination={{
-                onChange: page => {
-                    console.log(page);
-                },
-                pageSize: 3,
-                }}
-                dataSource={listData}
-                footer={
-                <div>
-                    <b>ant design</b> footer part
-                </div>
-                }
-                renderItem={item => (
-                <List.Item
-                    key={item.title}
-                    actions={[
-                    <IconText type="star-o" text="156" key="list-vertical-star-o" />,
-                    <IconText type="like-o" text="156" key="list-vertical-like-o" />,
-                    <IconText type="message" text="2" key="list-vertical-message" />,
-                    ]}
-                    extra={
-                    <img
-                        width={272}
-                        alt="logo"
-                        src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                    />
-                    }
-                >
-                    <List.Item.Meta
-                    avatar={<Avatar src={item.avatar} />}
-                    title={<a href={item.href}>{item.title}</a>}
-                    description={item.description}
-                    />
-                    {item.content}
-                </List.Item>
-                )}
-            />
+            <div>
+                <List 
+                    size="small"
+                    bordered="true"
+                    pagination={{
+                        onChange: page => {
+                            console.log(page);
+                        },
+                        pageSize: 1,
+                    }}
+                    dataSource={this.state.listData}
+                    renderItem={item => (
+                            <List.Item
+                                key={item.id}
+                                actions={[
+                                    <IconText type="star-o" text="156" key="list-vertical-star-o" />,
+                                    <IconText type="like-o" text="156" key="list-vertical-like-o" />,
+                                    <IconText type="message" text="2" key="list-vertical-message" />,
+                                ]}
+                                extra={
+                                    <div style={{margin:"20 auto"}}>
+                                        <ReactPlayer
+                                            width={450}
+                                            url={item.url}
+                                            playing
+                                            loop="true"
+                                        />
+                                    </div>
+                                }
+                            >
+                                <List.Item.Meta
+                                    title={<a>{item.title}</a>}
+                                    description={"Description:" + item.description}
+                                />
+                                    {"Type:" + item.type}
+                            </List.Item>
+                    )}
+                />
+            </div>
         ) 
     };
 }

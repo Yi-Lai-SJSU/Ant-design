@@ -3,7 +3,6 @@ import axios from 'axios';
 import '../App.css';
 import { Checkbox } from 'antd';
 
-
 class ClassifyImageCard extends React.Component {
     state = {
         term: '',

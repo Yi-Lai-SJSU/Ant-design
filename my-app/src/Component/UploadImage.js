@@ -3,25 +3,38 @@ import ImageList from './ImageList';
 import ImageClassList from './ImageClassList';
 
 class UploadImage extends React.Component {
+    
     state = {
         isClassView: this.props.isClassList,
         filteredImages: [],
+        choosenType: "unclassified",
     };
 
     backToClassList = () => {
-        console.log("^^^^^^^^^^^^^^^^^^^^^^^");
         this.setState({isClassView: true});
-    }
+    };
 
-    chooseOneClass = filteredImages => {
-        this.setState({filteredImages: filteredImages, isClassView: false});
-    }
+    chooseOneClass = (filteredImages, type) => {
+        this.setState({
+                filteredImages: filteredImages, 
+                choosenType: type,
+                isClassView: false}
+        );
+    };
 
     render() {
         if (this.state.isClassView) {
-            return <ImageClassList chooseClass={this.chooseOneClass} isUpload={true} />;
+            return  <ImageClassList 
+                        chooseClass={this.chooseOneClass} 
+                        isUpload={true} 
+                    />;
         } else {
-            return <ImageList isUpload={true} files={this.state.filteredImages} backToClassList={this.backToClassList}/>;
+            return <ImageList 
+                        isUpload={true} 
+                        type={this.state.choosenType} 
+                        files={this.state.filteredImages} 
+                        backToClassList={this.backToClassList}
+                    />;
         }
     }
 }

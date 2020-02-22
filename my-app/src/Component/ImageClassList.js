@@ -52,7 +52,7 @@ class ImageClassList extends React.Component {
                                 console.log(item.title);
                                 var filteredData = this.state.res.filter(data => data.type === item.title);
                                 console.log(filteredData);
-                                this.props.chooseClass(filteredData);
+                                this.props.chooseClass(filteredData, item.title);
                             }}>
                                 { this.props.isUpload ? "Upload" : "View" }
                             </a>,

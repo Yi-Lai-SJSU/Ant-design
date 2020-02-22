@@ -1,6 +1,8 @@
+//https://ant.design/components/upload-cn/
 import React from 'react';
-import { Upload, Icon, Modal, Button } from 'antd';
+import { Upload, Icon, Modal, Button, message } from 'antd';
 import "../App.css";
+import axios from 'axios';
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
@@ -15,14 +17,15 @@ class ImageList extends React.Component {
   state = {
     previewVisible: false,
     previewImage: '',
+    type: this.props.type,
     fileList: this.props.isUpload ?  [] : this.props.files.map((currElement) => {
       return ({
           uid: currElement.id,
           url: currElement.url,
       })
     }),
+    uploadData: null,
   };
-
 
   handleCancel = () => this.setState({ previewVisible: false });
 
@@ -37,32 +40,75 @@ class ImageList extends React.Component {
     });
   };
 
-  handleChange = ({ fileList }) => this.setState({ fileList });
+  handleChange = ({ fileList }) => {
+      console.log(fileList);
+      this.setState({ fileList })
+  };
 
   backToClassList = (e) => {
     console.log(e);
     this.props.backToClassList();
   };
 
+  uploadImages = async () => {
+
+    let headers = {
+      'Content-Type': 'multipart/form-data'
+    }
+    
+    let url = 'http://localhost:8000/images/image'
+
+    console.log("*************************");
+    console.log(this.state.fileList);
+    let formData = new FormData();
+
+    //https://stackoverflow.com/questions/54845951/react-antdesign-add-uploaded-images-to-formdata
+    let uploadFiles = this.state.fileList.map(currentItem => {
+      return currentItem.originFileObj;
+    });
+    
+    //https://developer.mozilla.org/zh-CN/docs/Web/API/FormData/append
+    for (let i = 0; i < uploadFiles.length; i++) {
+      console.log("index:" + i);
+      formData.append('files', uploadFiles[i])
+      console.log(uploadFiles[i].uid)
+    }
+    formData.append("type", this.state.type);
+
+    //https://blog.csdn.net/NAMECZ/article/details/84585709
+    console.log(formData.getAll("files"));
+
+    let res = await axios.post(url, formData, {hearders: headers});
+    if (this.state.fileList.length > 0) {
+      message.success('Upload Succeed!');
+    }
+    console.log(res.data);
+  }
+
   render() {
     const { previewVisible, previewImage, fileList } = this.state;
+
     const uploadButton = (
       <div>
         <Icon type="plus" />
-        <div className="ant-upload-text">Upload</div>
+        <div className="ant-upload-text">Add</div>
       </div>
     );
+
     return (
       <div className="clearfix">
         <Upload
           action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
           listType="picture-card"
-          fileList={fileList}
+          fileList={this.state.fileList}
           onPreview={this.handlePreview}
           onChange={this.handleChange}
         >
           { this.props.isUpload ? uploadButton : null }
         </Upload>
+        <div>
+          <Button type="primary" icon="upload" onClick={this.uploadImages}>Upload</Button>
+        </div>
         <Modal 
           visible={previewVisible} 
           footer={null} 
@@ -71,7 +117,7 @@ class ImageList extends React.Component {
           <img alt="example" style={{ width: '100%' }} src={previewImage} />
         </Modal>
         <div>
-          <Button type="link" onClick={this.backToClassList}> Back </Button>
+          <Button type="link" onClick={this.backToClassList}>Back</Button>
         </div>
       </div>
     );
