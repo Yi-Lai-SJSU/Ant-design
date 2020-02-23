@@ -9,6 +9,9 @@ import ViewImages from './Component/ViewImages';
 import UploadImage from './Component/UploadImage';
 import UploadVideo from './Component/UploadVideo';
 import PredictImage from './Component/PredictImage';
+import WrappedNormalLoginForm from './Component/MyLogin';
+import WrappedRegistrationForm from './Component/MyRegister';
+import { Row, Col, Divider } from 'antd';
 
 import { Layout } from 'antd';
 const { Content } = Layout;
@@ -18,7 +21,7 @@ class App extends React.Component {
     headerCurrent: 'home',
     siderCurrent: '',
     breadcrumbCurrent: '',
-    contentCurrent: ''
+    contentCurrent: 'home'
   };
 
   handleHeaderClick = e => {
@@ -46,7 +49,17 @@ class App extends React.Component {
 
     switch(this.state.contentCurrent) {
       case 'home':
-        content = <div> Home </div>;
+        content = (
+          <div>
+            <Divider />
+            <Row>
+              <Col span={6} push={2}><WrappedNormalLoginForm /></Col>
+              <Divider type="vertical" />
+              <Col span={15} push={2}><WrappedRegistrationForm /></Col>
+            </Row>
+            <Divider />
+          </div>
+        );
         break;
       case 'setting':
         content = <div> Setting </div>;

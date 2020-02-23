@@ -78,8 +78,13 @@ class ImageList extends React.Component {
     //https://blog.csdn.net/NAMECZ/article/details/84585709
     console.log(formData.getAll("files"));
 
+    if (this.state.fileList.length === 0) {
+      message.error('Please upload at least one image')
+      return;
+    }
     let res = await axios.post(url, formData, {hearders: headers});
-    if (this.state.fileList.length > 0) {
+    console.log('res', res)
+    if (res && res.status === 200) {
       message.success('Upload Succeed!');
     }
     console.log(res.data);
@@ -107,7 +112,7 @@ class ImageList extends React.Component {
           { this.props.isUpload ? uploadButton : null }
         </Upload>
         <div>
-          <Button type="primary" icon="upload" onClick={this.uploadImages}>Upload</Button>
+          <Button type="primary" onClick={this.uploadImages}>Submit</Button>
         </div>
         <Modal 
           visible={previewVisible} 
