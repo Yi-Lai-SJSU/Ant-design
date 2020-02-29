@@ -11,6 +11,7 @@ import UploadVideo from './Component/UploadVideo';
 import PredictImage from './Component/PredictImage';
 import WrappedNormalLoginForm from './Component/MyLogin';
 import WrappedRegistrationForm from './Component/MyRegister';
+import MyLoginRegister from './Component/MyLoginRegister';
 import { Row, Col, Divider } from 'antd';
 
 import { Layout } from 'antd';
@@ -21,8 +22,14 @@ class App extends React.Component {
     headerCurrent: 'home',
     siderCurrent: '',
     breadcrumbCurrent: '',
-    contentCurrent: 'home'
+    contentCurrent: 'home',
+    username: 'Guest',
   };
+
+  setUserName = (userName) => {
+    console.log(userName);
+    this.setState({username: userName})
+  }
 
   handleHeaderClick = e => {
     this.setState({headerCurrent: e.key});
@@ -49,17 +56,7 @@ class App extends React.Component {
 
     switch(this.state.contentCurrent) {
       case 'home':
-        content = (
-          <div>
-            <Divider />
-            <Row>
-              <Col span={6} push={2}><WrappedNormalLoginForm /></Col>
-              <Divider type="vertical" />
-              <Col span={15} push={2}><WrappedRegistrationForm /></Col>
-            </Row>
-            <Divider />
-          </div>
-        );
+        content = <div> Home </div>;
         break;
       case 'setting':
         content = <div> Setting </div>;
@@ -84,6 +81,9 @@ class App extends React.Component {
         break;
       case 'predictModel':
         content = <PredictImage />
+        break;
+      case 'login':
+        content = <MyLoginRegister setUserName={this.setUserName}/>
         break;
       default:
         content = <div> Project </div>

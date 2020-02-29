@@ -1,14 +1,57 @@
-import { Form, Icon, Input, Button, Checkbox, Divider } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, Divider, message } from 'antd';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import axios from 'axios';
+// import ReactDOM from 'react-dom';
 import '../App.css';
+// import 'whatwg-fetch'
 
 class NormalLoginForm extends React.Component {
+  state ={
+    credentials: {
+      username: '',
+      password: '',
+    },
+    isLogin: false,
+  };
+
+  showRegister = e => {
+    this.props.showRegister();
+  }
+
   handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        // console.log('Received values of form: ', values);
+        // this.setState({...this.state.credentials, username: values.username});
+        // this.setState({...this.state.credentials, password: values.password});
+        // console.log("******************************");
+        // console.log(this.state.credentials);
+        
+        // fetch('http://127.0.0.1:8000/user/login',{
+        //   method: 'POST',
+        //   headers: {'Content-Type': 'application/json'},
+        //   body: JSON.stringify(values)
+        // }).then(resp => {
+        //   console.log(resp.json());
+        // })
+        // .then( res => {
+        //   console.log(res);
+        //   console.log("**********************");
+        // });
+
+        // Making React and Django play well together - the “single page app” model
+        // https://fractalideas.com/blog/making-react-and-django-play-well-together-single-page-app-model/
+        await axios.post('http://127.0.0.1:8000/user/login', values, {withCredentials: true})
+        .then(response => {
+          console.log(response);
+          console.log(response.headers["set-cookie"]);
+          this.props.setUserName(response.data);
+          this.setState({isLogin: true});
+          message.success("Login suceed!");
+        }).catch(response => {
+          console.log("error");
+        });
       }
     });
   };
@@ -48,10 +91,10 @@ class NormalLoginForm extends React.Component {
           </a>
           <p> </p>
           <Button type="primary" htmlType="submit" className="login-form-button">
-            Log in
+            {this.state.isLogin ? "Logout" : "Login"} 
           </Button>
           <Divider type="vertical" />
-          Or <a href="">register now!</a>
+          Or <a onClick={this.showRegister}>register now!</a>
         </Form.Item>
       </Form>
     );
@@ -59,5 +102,4 @@ class NormalLoginForm extends React.Component {
 }
 
 const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(NormalLoginForm);
-
 export default WrappedNormalLoginForm;

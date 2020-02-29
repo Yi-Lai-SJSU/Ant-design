@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios';
 
 import {
     Form,
@@ -12,6 +13,8 @@ import {
     Checkbox,
     Button,
     AutoComplete,
+    Alert,
+    message
   } from 'antd';
   
   const { Option } = Select;
@@ -58,11 +61,14 @@ import {
       autoCompleteResult: [],
     };
   
-    handleSubmit = e => {
+    handleSubmit = (e) => {
       e.preventDefault();
-      this.props.form.validateFieldsAndScroll((err, values) => {
+      this.props.form.validateFieldsAndScroll( async (err, values) => {
         if (!err) {
           console.log('Received values of form: ', values);
+          let res = await axios.post('http://127.0.0.1:8000/user/register', values);
+          console.log(res.res);
+          message.error(res.data);
         }
       });
     };
@@ -140,6 +146,16 @@ import {
   
       return (
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+          <Form.Item label="Name">
+            {getFieldDecorator('username', {
+              rules: [{
+                  required: true,
+                  message: 'Please input your name!',
+              }],
+            })(
+              <Input placeholder="Please input your name" />
+            )}
+          </Form.Item>
           <Form.Item label="E-mail">
             {getFieldDecorator('email', {
               rules: [
@@ -180,17 +196,17 @@ import {
               ],
             })(<Input.Password onBlur={this.handleConfirmBlur} />)}
           </Form.Item>
-          <Form.Item label="Habitual Residence">
+          <Form.Item label="Location">
             {getFieldDecorator('residence', {
               initialValue: ['California', 'Santa Clara', 'San Jose'],
               rules: [
-                { type: 'array', required: true, message: 'Please select your habitual residence!' },
+                { type: 'array', required: false, message: 'Please select your habitual residence!' },
               ],
             })(<Cascader options={residences} />)}
           </Form.Item>
           <Form.Item label="Phone Number">
             {getFieldDecorator('phone', {
-              rules: [{ required: true, message: 'Please input your phone number!' }],
+              rules: [{ required: false, message: 'Please input your phone number!' }],
             })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
           </Form.Item>
           <Form.Item {...tailFormItemLayout}>

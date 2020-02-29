@@ -34,7 +34,6 @@ class MyHeader extends React.Component {
                   <Menu.Item key="home">
                     <Icon type="home" /> Home
                   </Menu.Item>
-
                   <SubMenu
                     title={
                       <span className="submenu-title-wrapper">
@@ -61,10 +60,14 @@ class MyHeader extends React.Component {
                       <Icon type="notification" />
                     </Badge>
                   </Menu.Item>
+                  <Menu.Item key="login">
+                    <Icon type="login" />
+                    Login
+                  </Menu.Item>
                 </Menu>
               </Col>
-              <Col span={6} push={25}>
-                What's wrong?
+              <Col span={8} push={6} style={{color:"white"}}>
+               What's wrong?
               </Col>
             </Row>
         </Header>

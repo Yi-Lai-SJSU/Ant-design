@@ -3,7 +3,6 @@ import ImageList from './ImageList';
 import ImageClassList from './ImageClassList';
 
 class UploadImage extends React.Component {
-    
     state = {
         isClassView: this.props.isClassList,
         filteredImages: [],
