@@ -21,7 +21,7 @@ class UploadVideoSider extends React.Component {
 
         // You can use any AJAX library you like
         reqwest({
-            url: 'http://127.0.0.1:8000/videoToFrames/',
+            url: `http://localhost:8000/videos/?user_id=${this.props.user_id}&project_title=${this.props.project}`,
             method: 'post',
             processData: false,
             data: formData,

@@ -3,8 +3,22 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { Route, BrowserRouter } from 'react-router-dom';
+import { CookiesProvider } from 'react-cookie';
+import MyLoginRegister from './Component/MyLoginRegister';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+
+
+const routing = (
+    <BrowserRouter>
+        <CookiesProvider>
+            <Route exact path="/" component={MyLoginRegister} />
+            <Route exact path="/app" component={App} />
+        </CookiesProvider>
+    </BrowserRouter>
+)
+
+ReactDOM.render(routing, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

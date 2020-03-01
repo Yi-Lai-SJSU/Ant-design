@@ -1,9 +1,8 @@
 import { Form, Icon, Input, Button, Checkbox, Divider, message } from 'antd';
 import React from 'react';
 import axios from 'axios';
-// import ReactDOM from 'react-dom';
 import '../App.css';
-// import 'whatwg-fetch'
+import { withCookies } from 'react-cookie';
 
 class NormalLoginForm extends React.Component {
   state ={
@@ -11,7 +10,6 @@ class NormalLoginForm extends React.Component {
       username: '',
       password: '',
     },
-    isLogin: false,
   };
 
   showRegister = e => {
@@ -22,35 +20,14 @@ class NormalLoginForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        // console.log('Received values of form: ', values);
-        // this.setState({...this.state.credentials, username: values.username});
-        // this.setState({...this.state.credentials, password: values.password});
-        // console.log("******************************");
-        // console.log(this.state.credentials);
-        
-        // fetch('http://127.0.0.1:8000/user/login',{
-        //   method: 'POST',
-        //   headers: {'Content-Type': 'application/json'},
-        //   body: JSON.stringify(values)
-        // }).then(resp => {
-        //   console.log(resp.json());
-        // })
-        // .then( res => {
-        //   console.log(res);
-        //   console.log("**********************");
-        // });
-
-        // Making React and Django play well together - the “single page app” model
-        // https://fractalideas.com/blog/making-react-and-django-play-well-together-single-page-app-model/
-        await axios.post('http://127.0.0.1:8000/user/login', values, {withCredentials: true})
+        await axios.post(`${process.env.REACT_APP_API_URL}/users/auth/`, values)
         .then(response => {
-          console.log(response);
-          console.log(response.headers["set-cookie"]);
-          this.props.setUserName(response.data);
-          this.setState({isLogin: true});
-          message.success("Login suceed!");
+          this.props.cookies.set('myapp-token', response.data.token);
+          this.props.cookies.set('myapp-user_id', response.data.user_id);
+          this.props.cookies.set('myapp-username', response.data.username);
+          window.location.href = "/app";
         }).catch(response => {
-          console.log("error");
+          message.error("Incorrect Password");
         });
       }
     });
@@ -102,4 +79,4 @@ class NormalLoginForm extends React.Component {
 }
 
 const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(NormalLoginForm);
-export default WrappedNormalLoginForm;
+export default withCookies(WrappedNormalLoginForm);

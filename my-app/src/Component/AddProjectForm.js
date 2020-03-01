@@ -55,20 +55,48 @@ import {
     },
   ];
   
-  class RegistrationForm extends React.Component {
+  class AddProjectForm extends React.Component {
     state = {
       confirmDirty: false,
       autoCompleteResult: [],
+      user_id: this.props.user_id,
     };
   
     handleSubmit = (e) => {
+      var that = this;
       e.preventDefault();
       this.props.form.validateFieldsAndScroll( async (err, values) => {
         if (!err) {
           console.log('Received values of form: ', values);
-          let res = await axios.post(`${process.env.REACT_APP_API_URL}/users/`, values);
-          console.log(res.res);
+          let data = {
+            user_id: this.props.user_id,
+            title: values.title,
+            description: values.description,
+            type: values.type
+          }
+          console.log(data);
+          await axios.post(`${process.env.REACT_APP_API_URL}/projects/`, data)
+          .then(function (response) {
+            message.info("Succuss!");
+            console.log(response);
+            e = {
+              key:values.title
+            };
+            console.log(e);
+            console.log(that.props);
+            that.props.automatic_jump(e);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
         }
+      });
+    };
+
+    handleSelectChange = value => {
+      console.log(value);
+      this.props.form.setFieldsValue({
+        note: `Hi, ${value === 'male' ? 'man' : 'lady'}!`,
       });
     };
   
@@ -145,56 +173,43 @@ import {
   
       return (
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-          <Form.Item label="Name">
-            {getFieldDecorator('username', {
+        
+          <Form.Item label="Project Title">
+            {getFieldDecorator('title', {
               rules: [{
                   required: true,
+                  message: 'Please Project Title!',
+              }],
+            })(
+              <Input placeholder="Please Project Title" />
+            )}
+          </Form.Item>
+
+          <Form.Item label="Description">
+            {getFieldDecorator('description', {
+              rules: [{
+                  required: false,
                   message: 'Please input your name!',
               }],
             })(
-              <Input placeholder="Please input your name" />
+              <Input placeholder="Please input description" />
             )}
           </Form.Item>
-          <Form.Item label="E-mail">
-            {getFieldDecorator('email', {
-              rules: [
-                {
-                  type: 'email',
-                  message: 'The input is not valid E-mail!',
-                },
-                {
-                  required: true,
-                  message: 'Please input your E-mail!',
-                },
-              ],
-            })(<Input />)}
+
+          <Form.Item label="Type">
+              {getFieldDecorator('type', {
+                rules: [{ required: true, message: 'Please select type!' }],
+              })(
+                <Select defaultValue="Classification"
+                  placeholder="Select a option and change input text above"
+                  // onChange={this.handleSelectChange}
+                >
+                  <Option value="Classification">Classification</Option>
+                  <Option value="Detection">Detection</Option>
+                </Select>,
+              )}
           </Form.Item>
-          <Form.Item label="Password" hasFeedback>
-            {getFieldDecorator('password', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Please input your password!',
-                },
-                {
-                  validator: this.validateToNextPassword,
-                },
-              ],
-            })(<Input.Password />)}
-          </Form.Item>
-          <Form.Item label="Confirm Password" hasFeedback>
-            {getFieldDecorator('confirm', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Please confirm your password!',
-                },
-                {
-                  validator: this.compareToFirstPassword,
-                },
-              ],
-            })(<Input.Password onBlur={this.handleConfirmBlur} />)}
-          </Form.Item>
+        
           <Form.Item label="Location">
             {getFieldDecorator('residence', {
               initialValue: ['California', 'Santa Clara', 'San Jose'],
@@ -203,30 +218,15 @@ import {
               ],
             })(<Cascader options={residences} />)}
           </Form.Item>
-          <Form.Item label="Phone Number">
-            {getFieldDecorator('phone', {
-              rules: [{ required: false, message: 'Please input your phone number!' }],
-            })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
-          </Form.Item>
-          <Form.Item {...tailFormItemLayout}>
-            {getFieldDecorator('agreement', {
-              valuePropName: 'checked',
-            })(
-              <Checkbox>
-                I have read the <a href="">agreement</a>
-              </Checkbox>,
-            )}
-          </Form.Item>
+        
           <Form.Item {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit">
-              Register
+              Add a new Project
             </Button>
           </Form.Item>
         </Form>
       );
     }
   }
-  
-  const WrappedRegistrationForm = Form.create({ name: 'register' })(RegistrationForm);
-  
-  export default WrappedRegistrationForm;
+const WrappedAddProjectForm = Form.create({ name: 'register' })(AddProjectForm);
+export default WrappedAddProjectForm;

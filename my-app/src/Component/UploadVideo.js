@@ -4,9 +4,7 @@ import ClassifyImage from './ClassifyImage';
 import UploadVideoSider from './UploadVideoSider';
 
 const {Content, Sider } = Layout;  
-
 class UploadVideo extends Component {
-
     state = {
         uploadSucceed: false,
         files: [],
@@ -41,7 +39,11 @@ class UploadVideo extends Component {
                                 color: '#f0f'
                             }}
                         >
-                            <UploadVideoSider handleUploadSucceed={this.handleUploadSucceed}/>
+                            <UploadVideoSider 
+                                handleUploadSucceed={this.handleUploadSucceed}
+                                user_id={this.props.user_id} 
+                                project={this.props.project}
+                            />
                         </Sider>
                     </Layout>
                 </Layout>

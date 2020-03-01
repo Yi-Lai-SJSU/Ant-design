@@ -11,12 +11,17 @@ const IconText = ({ type, text }) => (
 );
 
 class VideoList extends React.Component {
+    
     state ={
         listData: [],
+        project: this.props.project,
+        user_id: this.props.user_id,
     }
 
     componentDidMount() {
-        const url = 'http://localhost:8000/videoToFrames/testing/videos/';
+        console.log(this.state.project);
+        console.log(this.state.user_id);
+        const url = `${process.env.REACT_APP_API_URL}/videos/?user_id=${this.state.user_id}&project_title=${this.state.project}`;
         axios.get(url).then(res => {
             this.setState({listData: res.data});
             console.log(this.state.listData);
