@@ -51,6 +51,10 @@ class MySider extends React.Component {
               <Icon type="video-camera" />
               Upload Videos
             </Menu.Item>
+            <Menu.Item key="uploadModels">
+              <Icon type="file-jpg" />
+              Upload Models
+            </Menu.Item>
           </SubMenu>
           <SubMenu key="Model" title={<span> <Icon type="export" /> Model</span>}>
             <Menu.Item key="trainModel">

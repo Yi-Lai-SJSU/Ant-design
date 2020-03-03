@@ -10,6 +10,7 @@ import UploadImage from './Component/UploadImage';
 import UploadVideo from './Component/UploadVideo';
 import PredictImage from './Component/PredictImage';
 import AddProjectForm from './Component/AddProjectForm';
+import WrappedUploadModels from './Component/UploadModel';
 
 import { withCookies } from 'react-cookie';
 import { Layout } from 'antd';
@@ -99,13 +100,16 @@ class App extends React.Component {
         content = <VideoList user_id={this.state.user_id} project={this.state.current_project}/>;
         break;
       case 'viewModel':
-        content = <ModelList />;
+        content = <ModelList user_id={this.state.user_id} project={this.state.current_project}/>;
         break;
       case 'uploadImages':
         content = <UploadImage isClassList={true}/>
         break;
       case 'uploadVideos':
         content = <UploadVideo user_id={this.state.user_id} project={this.state.current_project}/>
+        break;
+      case 'uploadModels':
+        content = <WrappedUploadModels user_id={this.state.user_id} project={this.state.current_project}/>
         break;
       case 'trainModel':
         content = <div>Train Model</div>

@@ -1,45 +1,70 @@
 import React from 'react';
 import { Table } from 'antd';
+import axios from 'axios';
+
+// const columns = [
+//   {
+//     title: 'Name',
+//     dataIndex: 'name',
+//     render: text => <a>{text}</a>,
+//   },
+//   {
+//     title: 'Age',
+//     dataIndex: 'age',
+//   },
+//   {
+//     title: 'Address',
+//     dataIndex: 'address',
+//   },
+// ];
+// const data = [
+//   {
+//     key: '1',
+//     name: 'John Brown',
+//     age: 32,
+//     address: 'New York No. 1 Lake Park',
+//   },
+//   {
+//     key: '2',
+//     name: 'Jim Green',
+//     age: 42,
+//     address: 'London No. 1 Lake Park',
+//   },
+//   {
+//     key: '3',
+//     name: 'Joe Black',
+//     age: 32,
+//     address: 'Sidney No. 1 Lake Park',
+//   },
+//   {
+//     key: '4',
+//     name: 'Disabled User',
+//     age: 99,
+//     address: 'Sidney No. 1 Lake Park',
+//   },
+// ];
 
 const columns = [
   {
-    title: 'Name',
-    dataIndex: 'name',
-    render: text => <a>{text}</a>,
+    title: 'ID',
+    dataIndex: 'id',
+    render: url => <a>{url}</a>,
   },
   {
-    title: 'Age',
-    dataIndex: 'age',
+    title: 'Title',
+    dataIndex: 'title',
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
-  },
-];
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
+    title: 'Description',
+    dataIndex: 'description',
   },
   {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
+    title: 'Type',
+    dataIndex: 'type',
   },
   {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-  },
-  {
-    key: '4',
-    name: 'Disabled User',
-    age: 99,
-    address: 'Sidney No. 1 Lake Park',
+    title: 'Public',
+    dataIndex: 'isPublic',
   },
 ];
 
@@ -54,11 +79,30 @@ const rowSelection = {
   }),
 };
 
-
 class ModelList extends React.Component {
+    state= {
+      modelList: [],
+    }
+
+    async componentDidMount() {
+      let res = await axios.get(`${process.env.REACT_APP_API_URL}/models/?user_id=${this.props.user_id}&project_title=${this.props.project}`);
+      console.log(res.data);
+      res.data.map(current => {
+        if(current.isPublic) {
+          current.isPublic = "True";
+        } else {
+          current.isPublic = "False";
+        }
+      })
+      console.log(res.data);
+      this.setState({modelList: res.data});
+    }
+
     render() {
+        console.log("*****************");
+        console.log(this.state.modelList);
         return (
-            <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
+            <Table rowSelection={rowSelection} columns={columns} dataSource={this.state.modelList} />
         ) 
     };
 }

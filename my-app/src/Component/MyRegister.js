@@ -68,6 +68,7 @@ import {
           console.log('Received values of form: ', values);
           let res = await axios.post(`${process.env.REACT_APP_API_URL}/users/`, values);
           console.log(res.res);
+          message.info("Welcome:" + res.username);
         }
       });
     };
