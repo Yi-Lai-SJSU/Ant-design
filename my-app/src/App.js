@@ -115,7 +115,7 @@ class App extends React.Component {
         content = <div>Train Model</div>
         break;
       case 'predictModel':
-        content = <PredictImage />
+        content = <PredictImage user_id={this.state.user_id} project={this.state.current_project}/>
         break;
       case 'login':
         content = <div> Status </div>

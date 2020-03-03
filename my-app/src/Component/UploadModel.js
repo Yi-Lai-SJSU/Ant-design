@@ -147,7 +147,7 @@ class UploadModels extends React.Component {
                 {getFieldDecorator('switch', { valuePropName: 'Public' })(<Switch />)}
             </Form.Item>
     
-            <Form.Item label="Upload" extra="longgggggggggggggggggggggggggggggggggg">
+            <Form.Item label="Upload" >
                 {getFieldDecorator('upload', {
                     valuePropName: 'fileList',
                     getValueFromEvent: this.normFile,

@@ -6,7 +6,7 @@ import { Checkbox } from 'antd';
 class ClassifyImageCard extends React.Component {
     state = {
         term: '',
-        currentType: 'Unclassified',
+        currentType: this.props.image.type,
         isTrain: true,
     };
 

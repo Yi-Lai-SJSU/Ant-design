@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Layout, Spin } from 'antd';
 import ClassifyImage from './ClassifyImage';
-import UploadVideoSider from './UploadVideoSider';
+import WrappedUploadVideoSider from './UploadVideoSider';
 
 const {Content, Sider } = Layout;  
+
 class UploadVideo extends Component {
     state = {
         uploadSucceed: false,
@@ -20,7 +21,24 @@ class UploadVideo extends Component {
         return (
             <div>
                 <Layout >
-                    <Layout> 
+                    <Layout>
+                        <Content
+                            style={{
+                                padding: 24,
+                                margin: 0,
+                                minHeight: 280,
+                                minWidth:1000,
+                                width: 1000,
+                                color: '#f0f'
+                            }}
+                        >
+                            <WrappedUploadVideoSider 
+                                handleUploadSucceed={this.handleUploadSucceed}
+                                user_id={this.props.user_id} 
+                                project={this.props.project}
+                            />
+                        </Content>
+
                         <Content
                             style={{
                                 background: '#fff',
@@ -31,20 +49,6 @@ class UploadVideo extends Component {
                         >
                             { this.state.uploadSucceed ? <ClassifyImage isUpload={false} files={this.state.files}/> : <Spin />}    
                         </Content>
-                        <Sider
-                            style={{
-                                padding: 24,
-                                margin: 0,
-                                minHeight: 280,
-                                color: '#f0f'
-                            }}
-                        >
-                            <UploadVideoSider 
-                                handleUploadSucceed={this.handleUploadSucceed}
-                                user_id={this.props.user_id} 
-                                project={this.props.project}
-                            />
-                        </Sider>
                     </Layout>
                 </Layout>
             </div>
