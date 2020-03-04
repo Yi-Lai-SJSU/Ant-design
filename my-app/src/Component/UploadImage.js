@@ -26,6 +26,8 @@ class UploadImage extends React.Component {
             return  <ImageClassList 
                         chooseClass={this.chooseOneClass} 
                         isUpload={true} 
+                        user_id={this.props.user_id}
+                        project={this.props.project}
                     />;
         } else {
             return <ImageList 
@@ -33,6 +35,8 @@ class UploadImage extends React.Component {
                         type={this.state.choosenType} 
                         files={this.state.filteredImages} 
                         backToClassList={this.backToClassList}
+                        user_id={this.props.user_id}
+                        project={this.props.project}
                     />;
         }
     }

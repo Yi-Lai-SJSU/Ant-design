@@ -11,7 +11,7 @@ class ImageClassList extends React.Component {
     };
 
     componentDidMount() {
-        const url = 'http://localhost:8000/videoToFrames/testing/images/';
+        const url = `${process.env.REACT_APP_API_URL}/images/?user_id=${this.props.user_id}&project_title=${this.props.project}`;
         axios.get(url).then(res => {
             console.log(res.data);
             var allTypes = res.data.map(current => {

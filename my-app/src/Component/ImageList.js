@@ -51,17 +51,13 @@ class ImageList extends React.Component {
   };
 
   uploadImages = async () => {
-
     let headers = {
       'Content-Type': 'multipart/form-data'
     }
     
-    let url = 'http://localhost:8000/images/image'
-
-    console.log("*************************");
+    let url = `http://localhost:8000/images/?user_id=${this.props.user_id}&project_title=${this.props.project}`
     console.log(this.state.fileList);
     let formData = new FormData();
-
     //https://stackoverflow.com/questions/54845951/react-antdesign-add-uploaded-images-to-formdata
     let uploadFiles = this.state.fileList.map(currentItem => {
       return currentItem.originFileObj;
@@ -69,9 +65,9 @@ class ImageList extends React.Component {
     
     //https://developer.mozilla.org/zh-CN/docs/Web/API/FormData/append
     for (let i = 0; i < uploadFiles.length; i++) {
-      console.log("index:" + i);
-      formData.append('files', uploadFiles[i])
-      console.log(uploadFiles[i].uid)
+        console.log("index:" + i);
+        formData.append('files', uploadFiles[i])
+        console.log(uploadFiles[i].uid)
     }
     formData.append("type", this.state.type);
 
@@ -79,9 +75,10 @@ class ImageList extends React.Component {
     console.log(formData.getAll("files"));
 
     if (this.state.fileList.length === 0) {
-      message.error('Please upload at least one image')
-      return;
+        message.error('Please upload at least one image')
+        return;
     }
+
     let res = await axios.post(url, formData, {hearders: headers});
     console.log('res', res)
     if (res && res.status === 200) {
@@ -94,30 +91,33 @@ class ImageList extends React.Component {
     const { previewVisible, previewImage, fileList } = this.state;
 
     const uploadButton = (
-      <div>
-        <Icon type="plus" />
-        <div className="ant-upload-text">Add</div>
-      </div>
+        <div>
+          <Icon type="plus" />
+          <div className="ant-upload-text">Add</div>
+        </div>
     );
 
     return (
       <div className="clearfix">
         <Upload
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-          listType="picture-card"
-          fileList={this.state.fileList}
-          onPreview={this.handlePreview}
-          onChange={this.handleChange}
+            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            listType="picture-card"
+            fileList={this.state.fileList}
+            onPreview={this.handlePreview}
+            onChange={this.handleChange}
+            multiple={true}
         >
-          { this.props.isUpload ? uploadButton : null }
+            { this.props.isUpload ? uploadButton : null }
         </Upload>
+
         <div>
-          <Button type="primary" onClick={this.uploadImages}>Submit</Button>
+            <Button type="primary" onClick={this.uploadImages}> Submit </Button>
         </div>
+
         <Modal 
-          visible={previewVisible} 
-          footer={null} 
-          onCancel={this.handleCancel}
+            visible={previewVisible} 
+            footer={null} 
+            onCancel={this.handleCancel}
         >
           <img alt="example" style={{ width: '100%' }} src={previewImage} />
         </Modal>

@@ -86,6 +86,8 @@ class App extends React.Component {
       appSider = <MySider myClick={this.handleSiderClick} />;
     } 
 
+    console.log("what is wrong?")
+
     switch(this.state.contentCurrent) {
       case 'home':
         content = <div> Home </div>;
@@ -94,7 +96,7 @@ class App extends React.Component {
         content = <div> Setting </div>;
         break;
       case 'viewImage':
-        content = <ViewImages isClassList={true}/>;
+        content = <ViewImages isClassList={true} user_id={this.state.user_id} project={this.state.current_project}/>;
         break;
       case 'viewVideo':
         content = <VideoList user_id={this.state.user_id} project={this.state.current_project}/>;
@@ -103,7 +105,8 @@ class App extends React.Component {
         content = <ModelList user_id={this.state.user_id} project={this.state.current_project}/>;
         break;
       case 'uploadImages':
-        content = <UploadImage isClassList={true}/>
+        console.log("what is wrong?");
+        content = <UploadImage isClassList={true} user_id={this.state.user_id} project={this.state.current_project}/>
         break;
       case 'uploadVideos':
         content = <UploadVideo user_id={this.state.user_id} project={this.state.current_project}/>

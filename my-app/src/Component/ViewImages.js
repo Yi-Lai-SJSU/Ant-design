@@ -26,6 +26,8 @@ class ViewImage extends React.Component {
             return  <ImageClassList 
                         chooseClass={this.chooseOneClass} 
                         isUpload={false} 
+                        user_id={this.props.user_id}
+                        project={this.props.project}
                     />;
         } else {
             return <ImageList 

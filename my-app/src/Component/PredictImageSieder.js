@@ -17,6 +17,7 @@ class PredictImageSider extends React.Component {
     state = {
         modelList: [],
         uploading: false,
+        fileList: []
     }
 
     handleSubmit =  (e) => {
@@ -27,15 +28,21 @@ class PredictImageSider extends React.Component {
                 let formData = new FormData();
                 console.log(values.select);
                 formData.append("model", values.select);
-                for (let i = 0; i < values.upload.length; i++) {
+                for (let i = 0; i < values.dragger.length; i++) {
                     console.log("index:" + i);
-                    formData.append('files', values.upload[i].originFileObj);
+                    formData.append('files', values.dragger[i].originFileObj);
                 }
                 // http://axios-js.com/zh-cn/docs/index.html
                 console.log(formData);
                 let res = await axios.post(`${process.env.REACT_APP_API_URL}/images/predict/`, formData);
                 message.success("Upload Images Success!")
                 console.log(res); 
+                console.log("*********************************");
+                let e = {
+                    fileList: []
+                }
+
+                this.normFile(e);
                 this.setState({ uploading: false });
                 this.props.handleUploadSucceed(res.data);
             }
@@ -60,14 +67,16 @@ class PredictImageSider extends React.Component {
     }
 
     render() {
+        
         const { getFieldDecorator } = this.props.form;
+
         const formItemLayout = {
-          labelCol: { span: 6 },
-          wrapperCol: { span: 14 },
+            labelCol: { span: 6 },
+            wrapperCol: { span: 14 },
         };
+
         return (
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-
                 <Form.Item label="Upload Images">
                     <span className="ant-form-text">Please Select Models for Pre-predict</span>
                 </Form.Item>
@@ -81,8 +90,23 @@ class PredictImageSider extends React.Component {
                         </Select>
                     )}
                 </Form.Item>
-        
-                <Form.Item label="Upload">
+
+                <Form.Item label="Dragger">
+                    {getFieldDecorator('dragger', {
+                        valuePropName: 'fileList',
+                        getValueFromEvent: this.normFile,
+                    })(
+                        <Upload.Dragger name="files" action="/upload.do" multiple="true">
+                            <p className="ant-upload-drag-icon">
+                                <Icon type="inbox" />
+                            </p>
+                            <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                            <p className="ant-upload-hint">Support for a single or bulk upload.</p>
+                        </Upload.Dragger>,
+                    )}
+                </Form.Item>
+
+                {/* <Form.Item label="Upload">
                     {getFieldDecorator('upload', {
                         valuePropName: 'fileList',
                         getValueFromEvent: this.normFile,
@@ -93,7 +117,7 @@ class PredictImageSider extends React.Component {
                         </Button>
                         </Upload>,
                     )}
-                </Form.Item>
+                </Form.Item> */}
         
                 <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
                     <Button type="primary" htmlType="submit">
