@@ -86,9 +86,9 @@ class MyHeader extends React.Component {
                       <Icon type="notification" />
                     </Badge>
                   </Menu.Item>
-                  <Menu.Item key="login">
-                    <Icon type="login" />
-                    Login
+                  <Menu.Item key="logout">
+                    <Icon type="logout" />
+                      Logout
                   </Menu.Item>
                 </Menu>
               </Col>

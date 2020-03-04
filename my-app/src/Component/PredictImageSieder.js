@@ -34,7 +34,7 @@ class PredictImageSider extends React.Component {
                 }
                 // http://axios-js.com/zh-cn/docs/index.html
                 console.log(formData);
-                let res = await axios.post(`${process.env.REACT_APP_API_URL}/images/predict/`, formData);
+                let res = await axios.post(`${process.env.REACT_APP_API_URL}/images/predict/?user_id=${this.props.user_id}&project_title=${this.props.project}`, formData);
                 message.success("Upload Images Success!")
                 console.log(res); 
                 console.log("*********************************");
@@ -67,7 +67,7 @@ class PredictImageSider extends React.Component {
     }
 
     render() {
-        
+
         const { getFieldDecorator } = this.props.form;
 
         const formItemLayout = {

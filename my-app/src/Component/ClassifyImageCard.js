@@ -17,7 +17,7 @@ class ClassifyImageCard extends React.Component {
           isTrain: this.state.isTrain,
         }
         console.log(params);
-        let res = await axios.post('http://127.0.0.1:8000/classifyImage/', params);
+        let res = await axios.put(`${process.env.REACT_APP_API_URL}/images/?image_id=${id}&type=${type}`);
         console.log(res.data);
     }
 

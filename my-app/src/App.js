@@ -15,6 +15,8 @@ import WrappedUploadModels from './Component/UploadModel';
 import { withCookies } from 'react-cookie';
 import { Layout } from 'antd';
 import Axios from 'axios';
+import HomePage from './Component/HomePage';
+
 const { Content } = Layout;
 
 class App extends React.Component {
@@ -44,6 +46,13 @@ class App extends React.Component {
   }
 
   handleHeaderClick = e => {
+    console.log("e.key:", e.key);
+    if (e.key == "logout") {
+      this.setState({token: null});
+      console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+      console.log(this.state.token);
+      return;
+    }
     this.setState({headerCurrent: e.key});
     console.log("*******", e.key);
     if (e.key.includes("Project", 0)) {
@@ -66,7 +75,6 @@ class App extends React.Component {
   };
    
   handleSiderClick = e => {
-    console.log("e.key:", e.key);
     this.setState({siderCurrent: e.key});
     this.setState({contentCurrent: e.key});
     console.log("app's current state", this.state.siderCurrent);
@@ -81,16 +89,13 @@ class App extends React.Component {
   render() {
     let appSider = '';
     let content = '';
-
     if (this.state.siderCurrent !== '') {
       appSider = <MySider myClick={this.handleSiderClick} />;
     } 
-
     console.log("what is wrong?")
-
     switch(this.state.contentCurrent) {
       case 'home':
-        content = <div> Home </div>;
+        content = <HomePage />;
         break;
       case 'setting':
         content = <div> Setting </div>;
@@ -120,8 +125,7 @@ class App extends React.Component {
       case 'predictModel':
         content = <PredictImage user_id={this.state.user_id} project={this.state.current_project}/>
         break;
-      case 'login':
-        content = <div> Status </div>
+      case 'logout':
         break;
       case 'add:project':
         content = <AddProjectForm user_id={this.state.user_id} automatic_jump={this.automatic_jump}/>
