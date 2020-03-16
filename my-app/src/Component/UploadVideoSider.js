@@ -101,7 +101,10 @@ class UploadVideoSider extends React.Component {
                         valuePropName: 'fileList',
                         getValueFromEvent: this.normFile,
                     })(
-                        <Upload name="logo" action="/upload.do" listType="picture">
+                        <Upload name="logo" 
+                                action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
+                                listType="picture"
+                        >
                         <Button>
                             <Icon type="upload" /> Click to upload
                         </Button>

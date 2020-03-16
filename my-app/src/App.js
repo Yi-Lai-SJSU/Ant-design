@@ -11,6 +11,7 @@ import UploadVideo from './Component/UploadVideo';
 import PredictImage from './Component/PredictImage';
 import AddProjectForm from './Component/AddProjectForm';
 import WrappedUploadModels from './Component/UploadModel';
+import WrappedUploadNet from './Component/UploadNet';
 
 import { withCookies } from 'react-cookie';
 import { Layout } from 'antd';
@@ -120,7 +121,7 @@ class App extends React.Component {
         content = <WrappedUploadModels user_id={this.state.user_id} project={this.state.current_project}/>
         break;
       case 'trainModel':
-        content = <div>Train Model</div>
+        content = <WrappedUploadNet user_id={this.state.user_id} project={this.state.current_project} />
         break;
       case 'predictModel':
         content = <PredictImage user_id={this.state.user_id} project={this.state.current_project}/>

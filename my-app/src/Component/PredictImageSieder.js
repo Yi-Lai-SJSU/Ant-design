@@ -96,7 +96,10 @@ class PredictImageSider extends React.Component {
                         valuePropName: 'fileList',
                         getValueFromEvent: this.normFile,
                     })(
-                        <Upload.Dragger name="files" action="/upload.do" multiple="true">
+                        <Upload.Dragger name="files" 
+                                        action='https://www.mocky.io/v2/5cc8019d300000980a055e76' 
+                                        multiple="true"
+                        >
                             <p className="ant-upload-drag-icon">
                                 <Icon type="inbox" />
                             </p>

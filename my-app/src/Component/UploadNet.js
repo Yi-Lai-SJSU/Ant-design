@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
     Form,
     Select,
@@ -53,31 +53,39 @@ const residences = [
         },
       ],
     },
-  ];
-  
-class UploadModels extends React.Component {
+];
 
+class UploadNet extends React.Component {
     handleSubmit =  (e) => {
         e.preventDefault();
-        this.props.form.validateFields(async (err, values) => {
+        this.props.form.validateFields( async (err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
                 let formData = new FormData();
-                formData.append("title", values.title);
-                formData.append("description", values.description);
-                formData.append("type", values.type);
-                formData.append("switch", values.switch);
-                formData.append("files",values.upload[0].originFileObj);
-                formData.append("files",values.upload[1].originFileObj);
-                console.log('formData:',formData);
+                console.log(values.select);
+                formData.append("model", values.select);
+                // for (let i = 0; i < values.dragger.length; i++) {
+                //     console.log("index:" + i);
+                //     formData.append('files', values.dragger[i].originFileObj);
+                // }
+                formData.append('files', values.upload[0].originFileObj)
                 // http://axios-js.com/zh-cn/docs/index.html
-                let res = await axios.post(`${process.env.REACT_APP_API_URL}/models/?user_id=${this.props.user_id}&project_title=${this.props.project}`, formData);
-                message.success("Upload Model Success!")
-                console.log(res);     
+                console.log(formData);
+                let res = await axios.put(`${process.env.REACT_APP_API_URL}/models/?user_id=${this.props.user_id}&project_title=${this.props.project}`, formData);
+                message.success("Upload Images Success!")
+                console.log(res); 
+                console.log("*********************************");
+                let e = {
+                    fileList: []
+                }
+
+                this.normFile(e);
+                this.setState({ uploading: false });
+                // this.props.handleUploadSucceed(res.data);
             }
         });
     };
-    
+
     normFile = e => {
         console.log('Upload event:', e);
         if (Array.isArray(e)) {
@@ -95,12 +103,11 @@ class UploadModels extends React.Component {
         return (
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
 
-            <Form.Item label="Add classic Model">
-                <span className="ant-form-text"> Keras Model(.h5) Only </span>
+            <Form.Item label="Add your net.py">
+                <span className="ant-form-text"> Based on Tensorflow and .py Only </span>
             </Form.Item>
 
-
-            <Form.Item label="Model Title">
+            <Form.Item label="File Title">
             {getFieldDecorator('title', {
               rules: [{
                   required: true,
@@ -177,5 +184,5 @@ class UploadModels extends React.Component {
     }
 }
 
-const WrappedUploadModels = Form.create({ name: 'validate_other' })(UploadModels);
-export default WrappedUploadModels;
+const WrappedUploadNet = Form.create({ name: 'validate_other' })(UploadNet);
+export default WrappedUploadNet;
