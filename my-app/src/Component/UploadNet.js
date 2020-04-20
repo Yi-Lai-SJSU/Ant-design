@@ -69,6 +69,7 @@ class UploadNet extends React.Component {
                 //     formData.append('files', values.dragger[i].originFileObj);
                 // }
                 formData.append('files', values.upload[0].originFileObj)
+                formData.append('type', values.type);
                 // http://axios-js.com/zh-cn/docs/index.html
                 console.log(formData);
                 let res = await axios.put(`${process.env.REACT_APP_API_URL}/models/?user_id=${this.props.user_id}&project_title=${this.props.project}`, formData);
@@ -81,7 +82,6 @@ class UploadNet extends React.Component {
 
                 this.normFile(e);
                 this.setState({ uploading: false });
-                // this.props.handleUploadSucceed(res.data);
             }
         });
     };

@@ -99,7 +99,6 @@ class UploadModels extends React.Component {
                 <span className="ant-form-text"> Keras Model(.h5) Only </span>
             </Form.Item>
 
-
             <Form.Item label="Model Title">
             {getFieldDecorator('title', {
               rules: [{
